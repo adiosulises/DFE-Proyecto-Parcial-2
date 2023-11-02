@@ -63,3 +63,20 @@ p {margin:0;}
 .btn-add:hover {
     background-color: #989898;
 }
+
+.eliminar {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dc3444;
+    border-radius: 5px;
+    color: white;
+    padding: 30px 50px;
+    top: 20px;
+    right: 20px;
+}
+
+.hidden {
+    display: none;
+}

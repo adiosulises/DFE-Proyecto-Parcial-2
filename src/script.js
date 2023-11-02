@@ -75,7 +75,16 @@ function deleteItem(itemId) {
   })
     .then((response) => {
       if (response.ok) {
-        alert(`La tarea #${itemId} fue eliminado`);
+        var divEliminar = document.createElement("div");
+        divEliminar.classList.add("eliminar");
+
+        divEliminar.innerHTML = `<p>Tarea ${itemId} eliminada</p>`;
+
+        document.body.appendChild(divEliminar);
+
+        setTimeout(function () {
+          divEliminar.classList.add("hidden");
+        }, 3000);
         fetchDataAndDisplay();
       } else {
         console.error(`No se pudo eliminar la tarea ${itemId}`);
@@ -97,6 +106,8 @@ function fetchDataAndDisplay() {
     });
 }
 
+// boton eliminar
+
 document.addEventListener("click", function (event) {
   if (event.target.classList.contains("btn-danger")) {
     const itemId = event.target.getAttribute("data-task-id");
@@ -105,6 +116,23 @@ document.addEventListener("click", function (event) {
     }
   }
 });
+
+// mensaje eliminar
+
+function mensajeEliminar() {
+  var divEliminar = document.createElement("div");
+  divEliminar.classList.add("eliminar");
+
+  divEliminar.innerHTML = `<p>Tarea eliminada</p>`;
+
+  document.body.appendChild(divEliminar);
+
+  setTimeout(function () {
+    divEliminar.classList.add("hidden");
+  }, 3000);
+}
+
+// boton editar
 
 function vanish() {}
 
