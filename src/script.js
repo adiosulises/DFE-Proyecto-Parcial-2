@@ -3,7 +3,7 @@ const apiURL = "https://653fffe545bedb25bfc18dda.mockapi.io/acts";
 fetch(apiURL)
   .then((response) => response.json())
   .then((data) => {
-    displayData(data); // Change this function name
+    displayData(data);
   })
   .catch((error) => {
     console.log("Error fetching data: ", error);
@@ -12,7 +12,6 @@ fetch(apiURL)
 const tableBody = document.querySelector(".todo-list");
 
 function displayData(data) {
-  // Clear the table body
   tableBody.innerHTML = "";
 
   data.forEach((item) => {
@@ -25,10 +24,8 @@ function displayData(data) {
         <div class="todo-text">
             <h1>${item.name}</h1>
             <p>${item.desc}</p>
-            <p>${item.date}</p>
         </div>
         <div class="todo-btn">
-            <button data-task-id="${item.id}" class="btn btn-success">O</button>
             <button data-task-id="${item.id}" class="btn btn-danger">X</button>
             <button data-task-id="${item.id}" class="btn btn-warning">E</button>
         </div>
@@ -37,53 +34,78 @@ function displayData(data) {
   });
 }
 
-// Define a function to delete an item by its ID
-function deleteItem(itemId) {
-  fetch(`https://653fffe545bedb25bfc18dda.mockapi.io/acts/${itemId}`, {
-    method: 'DELETE'
-  })
-  .then(response => {
-    if (response.ok) {
-      // Item has been successfully deleted
-      // You can update the UI or reload the data if needed
-      alert(`La tarea #${itemId} fue eliminado`);
+function submitForm(event) {
+  event.preventDefault();
 
-      // After successful deletion, fetch and display the updated data
-      fetchDataAndDisplay();
-    } else {
-      console.error(`Failed to delete item with ID ${itemId}`);
-    }
-  })
-  .catch(error => {
-    console.error(`Error deleting item with ID ${itemId}:`, error);
+  const form = document.getElementById("formulario");
+  const formData = new FormData(form);
+
+  const formObject = {};
+  formData.forEach((value, key) => {
+    formObject[key] = value;
   });
-}
 
-// Function to fetch data and display it
-function fetchDataAndDisplay() {
-  fetch("https://653fffe545bedb25bfc18dda.mockapi.io/acts")
-    .then(response => response.json())
-    .then(data => {
-      displayData(data);
+  fetch(apiURL, {
+    method: "POST",
+    body: JSON.stringify(formObject),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log(formObject);
+        console.log("Tarea agregada");
+        location.reload();
+      } else {
+        alert("Fallo");
+      }
     })
-    .catch(error => {
-      console.log("Error fetching data: ", error);
+    .catch((error) => {
+      console.error("Error ", error);
     });
 }
 
-// Add an event listener to your "Delete" buttons
-document.addEventListener('click', function (event) {
-  if (event.target.classList.contains('btn-danger')) {
-    const itemId = event.target.getAttribute('data-task-id');
+const form = document.getElementById("formulario");
+form.addEventListener("submit", submitForm);
+
+function deleteItem(itemId) {
+  fetch(`https://653fffe545bedb25bfc18dda.mockapi.io/acts/${itemId}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert(`La tarea #${itemId} fue eliminado`);
+        fetchDataAndDisplay();
+      } else {
+        console.error(`No se pudo eliminar la tarea ${itemId}`);
+      }
+    })
+    .catch((error) => {
+      console.error(`Error al eliminar la tarea ${itemId}:`, error);
+    });
+}
+
+function fetchDataAndDisplay() {
+  fetch("https://653fffe545bedb25bfc18dda.mockapi.io/acts")
+    .then((response) => response.json())
+    .then((data) => {
+      displayData(data);
+    })
+    .catch((error) => {
+      console.log("Error ", error);
+    });
+}
+
+document.addEventListener("click", function (event) {
+  if (event.target.classList.contains("btn-danger")) {
+    const itemId = event.target.getAttribute("data-task-id");
     if (itemId) {
       deleteItem(itemId);
     }
   }
 });
 
-function vanish() {
+function vanish() {}
 
-}
-
-// Initial data fetch and display
 fetchDataAndDisplay();

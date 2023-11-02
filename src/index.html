@@ -21,7 +21,7 @@
     </div>
     <div class="container d-flex justify-content-center">
         <div class="data-table-body todo-list">
-            <script src="script.js"></script>
+            
         </div>
     </div>
         <!-- Modal -->
@@ -33,22 +33,19 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="formulario">
                             <div class="mb-3">
-                              <label for="name" class="form-label">Email address</label>
-                              <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
-                              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                              <label for="name" class="form-label">Título de la tarea</label>
+                              <input type="text" class="form-control" name="name" required>
                             </div>
                             <div class="mb-3">
-                              <label for="desc" class="form-label">Password</label>
-                              <input type="text" class="form-control" id="desc">
+                              <label for="desc" class="form-label">Descripción</label>
+                              <input type="text" class="form-control" name="desc" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary">Agregar</button>
+                            </div>
                           </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -58,6 +55,8 @@
     <button type="button" class="btn-add" data-bs-toggle="modal" data-bs-target="#exampleModal">
         +
     </button>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
